@@ -1,0 +1,26 @@
+image:
+  repository: eu.gcr.io/gardener-project/gardener/extensions/provider-openshift
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+maxUnavailable: 1
+maxSurge: 50%
+
+resources: {}
+vpa:
+  enabled: true
+  updatePolicy:
+    updateMode: "Auto"
+
+controllers:
+  ignoreOperationAnnotation: false
+
+disableControllers: []
+
+config:
+  clientConnection:
+    acceptContentTypes: application/json
+    contentType: application/json
+    qps: 100
+    burst: 130
