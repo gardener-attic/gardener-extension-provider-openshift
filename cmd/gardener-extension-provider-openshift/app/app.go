@@ -20,6 +20,8 @@ import (
 	"os"
 
 	openshiftcmd "github.com/gardener/gardener-extension-provider-openshift/pkg/cmd"
+	openshiftbackupbucket "github.com/gardener/gardener-extension-provider-openshift/pkg/controller/backupbucket"
+	openshiftbackupentry "github.com/gardener/gardener-extension-provider-openshift/pkg/controller/backupentry"
 	"github.com/gardener/gardener-extension-provider-openshift/pkg/openshift"
 
 	"github.com/gardener/gardener/extensions/pkg/controller"
@@ -39,13 +41,28 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 		}
 		configFileOpts = &openshiftcmd.ConfigOptions{}
 
+		// options for the backupbucket controller
+		backupBucketCtrlOpts = &controllercmd.ControllerOptions{
+			MaxConcurrentReconciles: 5,
+		}
+
+		// options for the backupentry controller
+		backupEntryCtrlOpts = &controllercmd.ControllerOptions{
+			MaxConcurrentReconciles: 5,
+		}
+
+		reconcileOpts = &controllercmd.ReconcilerOptions{}
+
 		controllerSwitches = openshiftcmd.ControllerSwitchOptions()
 
 		aggOption = controllercmd.NewOptionAggregator(
 			restOpts,
 			mgrOpts,
+			controllercmd.PrefixOption("backupbucket-", backupBucketCtrlOpts),
+			controllercmd.PrefixOption("backupentry-", backupEntryCtrlOpts),
 			controllerSwitches,
 			configFileOpts,
+			reconcileOpts,
 		)
 	)
 
@@ -68,6 +85,14 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 			if err := controller.AddToScheme(scheme); err != nil {
 				controllercmd.LogErrAndExit(err, "Could not update manager scheme")
 			}
+
+			// apply controller options
+			backupBucketCtrlOpts.Completed().Apply(&openshiftbackupbucket.DefaultAddOptions.Controller)
+			backupEntryCtrlOpts.Completed().Apply(&openshiftbackupentry.DefaultAddOptions.Controller)
+
+			// apply reconciliation options
+			reconcileOpts.Completed().Apply(&openshiftbackupbucket.DefaultAddOptions.IgnoreOperationAnnotation)
+			reconcileOpts.Completed().Apply(&openshiftbackupentry.DefaultAddOptions.IgnoreOperationAnnotation)
 
 			if err := controllerSwitches.Completed().AddToManager(mgr); err != nil {
 				controllercmd.LogErrAndExit(err, "Could not add controllers to manager")
