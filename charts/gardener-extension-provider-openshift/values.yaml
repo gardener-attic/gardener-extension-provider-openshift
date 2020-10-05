@@ -14,6 +14,10 @@ vpa:
     updateMode: "Auto"
 
 controllers:
+  backupbucket:
+    concurrentSyncs: 5
+  backupentry:
+    concurrentSyncs: 5
   ignoreOperationAnnotation: false
 
 disableControllers: []

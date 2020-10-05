@@ -30,7 +30,7 @@ var (
 	logger = log.Log.WithName("ocs-backupbucket-actuator")
 )
 
-// AddOptions are options to apply when adding the s3 backupbucket controller to the manager.
+// AddOptions are options to apply when adding the OCS backupbucket controller to the manager.
 type AddOptions struct {
 	// Controller are the controller.Options.
 	Controller controller.Options

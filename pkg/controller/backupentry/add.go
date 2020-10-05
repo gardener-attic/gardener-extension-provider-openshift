@@ -31,7 +31,7 @@ var (
 	logger = log.Log.WithName("ocs-backupentry-actuator")
 )
 
-// AddOptions are options to apply when adding the s3 backupentry controller to the manager.
+// AddOptions are options to apply when adding the OCS backupentry controller to the manager.
 type AddOptions struct {
 	// Controller are the controller.Options.
 	Controller controller.Options
