@@ -12,11 +12,6 @@ gardener-extension-provider-openshift:
             image: 'eu.gcr.io/gardener-project/gardener/extensions/provider-openshift'
             dockerfile: 'Dockerfile'
             target: gardener-extension-provider-openshift
-          gardener-extension-admission-openshift:
-            registry: 'gcr-readwrite'
-            image: 'eu.gcr.io/gardener-project/gardener/extensions/admission-openshift'
-            dockerfile: 'Dockerfile'
-            target: gardener-extension-admission-openshift
   jobs:
     head-update:
       traits:
@@ -48,6 +43,4 @@ gardener-extension-provider-openshift:
         publish:
           dockerimages:
             gardener-extension-provider-openshift:
-              tag_as_latest: true
-            gardener-extension-admission-openshift:
               tag_as_latest: true
