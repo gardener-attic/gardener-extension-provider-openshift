@@ -5,7 +5,7 @@ go 1.14
 require (
 	github.com/ahmetb/gen-crd-api-reference-docs v0.2.0
 	github.com/aws/aws-sdk-go v1.34.14
-	github.com/emicklei/go-restful v2.10.0+incompatible // indirect
+	github.com/emicklei/go-restful v2.16.0+incompatible // indirect
 	github.com/gardener/gardener v1.11.1
 	github.com/go-logr/logr v0.1.0
 	github.com/gobuffalo/packr/v2 v2.8.0
